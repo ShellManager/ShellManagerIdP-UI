@@ -1,0 +1,96 @@
+<% content_for :page_class, "undefined" %>
+	<% content_for :login, 1 %>
+		<section id="content">
+			<a name="content"></a>
+			<div class="section">
+				<div style="max-width: 400px; margin: auto" class="container center">
+					<h1>Sign In</h1><br><br>
+					<div style="width: 230px; margin: auto">
+						<div id="flashContainer"></div>
+					</div>
+					<form id="login-form" action="#" method="POST">
+						<div class="emailPasswordCredentialsBox"><input id="email" type="text" name="email" placeholder="Email" required="required" autofocus="autofocus" autocomplete="kthxbai" class="borderBottom"><br><input id="password" type="password" name="password" placeholder="Password" required="required" class="borderBottom"><br>
+							<div style="display: none" class="QRCodeMFALoginTokenBox"><input id="QRCodeMFALoginToken" type="number" pattern="[0-9]*" inputmode="numeric" name="QRCodeMFALoginToken" placeholder="Enter Code" class="borderBottom twoFactorInput"><br></div>
+							<button id="loginButton" type="submit" class="hollow blueCTA">
+								<span class="innerSpinner"></span><span class="innerText">Sign in</span></button>
+						</form<br><br>
+						<div class="row">
+							<div class="center">
+								<a id="forgotPass" href="forgot.html">Forgot Password</a>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="clearfix"><br><br><br></div>
+			</section>
+			<script>
+				function setCookie(cname, cvalue, ctime) {
+					var d = new Date();
+					d.setTime(d.getTime() + (ctime * 60 * 1000));
+					var expires = "expires=" + d.toUTCString();
+					document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+				}
+				if (readCookie("username")) {
+					$('#email').val(readCookie("username"))
+				}
+				$(document).on("click", "button[type=submit]", function (e) {
+					e.preventDefault();
+					c = new ClientJS();
+					fingerprint = c.getFingerprint();
+					$('.borderBottom').attr('disabled', true)
+					$(this).find('.innerSpinner').addClass('activeSpinning');
+					$(this).prop("disabled", true);
+					var prop = this;
+					$.ajax({
+              type: 'POST',
+              url: 'http://localhost:3000/api/v1/sessions',
+              dataType: 'json',
+              async: false,
+              headers: {
+                  "Authorization": "Bearer " + btoa($("#email").val() + ":" + $("#password").val())
+              },
+              success: function (data) {
+                  if(data.status == "ok") {
+                      apiKey = data.api_key
+                      $.ajax({
+                          type: 'GET',
+                          url: 'http://localhost:3000/api/v1/details/' + $("#email").val(),
+                          headers: {
+                              "Authorization": "Bearer " + apiKey
+                          },
+                          success: function (data) {
+                              $.ajax({
+                                  type: 'POST',
+                                  url: '/account/login',
+                                  data: JSON.stringify(data.user_details[0]),
+                                  dataType: 'json',
+                                  headers: {
+                                      "Authorization": "Bearer " + apiKey
+                                  },
+                                  success: function () {
+                                      if (getParameterByName('returl') != null && !urlTest.test(getParameterByName('returl'))) {
+                                          loadPage(decodeURIComponent(getParameterByName('returl').replace(/\+/g, '%20')))
+                                      } else {
+                                          loadPage("/console");
+                                      }
+                                  }
+                              })
+                          }
+                      })
+                  } else {
+                      $('.borderBottom').attr('disabled', false).attr('style', 'border-color: red;');
+                      $(prop).find('.innerSpinner').removeClass('activeSpinning');
+                      $(prop).prop("disabled", false);
+                      setTimeout(function () {
+                          $('.borderBottom').removeAttr('style');
+                      }, 3000)
+                  }
+              }
+          })
+				});
+
+				if (!window.location.pathname.includes('login')){
+				    loadPage('/account/login')
+        }
+			</script>

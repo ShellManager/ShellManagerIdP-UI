@@ -1,0 +1,14 @@
+<%= render 'partials/layout/head' %>
+		<% if((content_for?(:login)) || (yield(:page_class) == "undefined signup")) %>
+		<script>
+		document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+		</script>
+		<% end %>
+	<%= render 'partials/layout/body_top' %>
+	<%= yield %>
+	<% if yield(:page_class) == "undefined signup" %>
+		<%= render 'partials/footer/footer_account' %>
+	<% end %>
+	<%= render 'partials/footer/footer' %>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<% content_for :page_class, "undefined" %>
+<section id="content"><a name="content"></a>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="center m-t-100 m-b-100">
+        <h1>Webmail Login</h1><br><br>
+        <p id="message">Hang tight while we log you in...</p></div>
+    </div>
+  </div>
+</section>
+<script>
+$.post("http://localhost:3000/api/v1/znc/reverse",
+  JSON.stringify({
+      token: readCookie("token"),
+      hash: readCookie("hash"),
+      x: readCookie("x"),
+      y: readCookie("y"),
+      z: readCookie("z")
+  }),
+  function(data, status){
+    if(data.code == 'success'){
+      $.get("/Webmail/sso/handoff.php?cred="+data.payload,
+        function(data){
+          window.location = '/Webmail/?sso&hash='+data.wmh;
+        });
+    } else {
+      console.log("DEBUG: "+data.code);
+      $('#message').html("Oh no! We couldn't log you in");
+    }
+  });
+</script>

@@ -1,0 +1,64 @@
+<% content_for :page_class, "runMachine mobile js" %>
+<% content_for :machine, 1 %>
+<div id="HUDReact">
+  <div data-reactroot="">
+    <!-- react-text: 2 -->
+    <!-- /react-text -->
+    <span>
+          <div></div>
+        </span>
+    <div id="advancedSettingsHUD">
+      <div id="hudContainer" class="hidden">
+        <span></span></div>
+      <noscript></noscript>
+    </div>
+    <div id="hudContainer" class="">
+          <span>
+            <div id="overlayPS"></div>
+            <div class="">
+              <div class="verticalStatsAligner">
+                <div class="controls" style="min-width: 400px;">
+                  <h3 class="p-b-20" style="font-size: 3em; color: rgba(200, 200, 200, 0.6);">SAML Authentication</h3>
+                  <h3 class="p-b-20" id="promptbox">
+                    <span style='color: yellow'>Hold on, this won't take long...</span>
+                  </h3>
+                </div>
+              </div>
+            </div>
+          </span>
+      <noscript></noscript>
+      <noscript></noscript>
+    </div>
+    <div>
+      <div class="" style="z-index: 10;">
+        <div id="psButton" class="react-draggable react-draggable-dragged" style="position: absolute; display: block; right: 195px; top: 40px; text-align: center; width: 30px; height: 40px; z-index: 1002; transform: translate(0px, 0px);">
+          <div class=""></div>
+        </div>
+      </div>
+      <div class="mouseBlocker nopointerevents invisible" style="z-index: 998;"></div>
+    </div>
+  </div>
+</div>
+<div id="playerStatsSmall">
+  <div id="frameBlinker"></div>
+</div>
+<div id="uploadFileReact"></div>
+<div id="totalTime"></div>
+<div id="renderFrame"></div>
+<div class="ReactModalPortal">
+  <div data-reactroot=""></div>
+</div>
+<div class="ReactModalPortal">
+  <div data-reactroot=""></div>
+</div>
+<div class="ReactModalPortal">
+  <div data-reactroot=""></div>
+</div>
+<script>
+  $(function(){
+      redirect_uri = "http://localhost:3000/api/v1/saml/<%= params[:caller] %>?gid=<%= @current_user[:user_global_id] %>&api_key=<%= @current_user[:api_key] %>"
+      setTimeout(function(){
+          window.location = redirect_uri
+      }, 2500)
+  })
+</script>

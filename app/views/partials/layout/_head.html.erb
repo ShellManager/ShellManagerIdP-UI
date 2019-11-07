@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta property="og:title" content="Monarch Shells - Your services, in the cloud">
+	<meta property="og:image" content="https://ltscdn.m6.nz/shell/main/images/facebook-xproshells.png">
+	<meta property="og:description" content="Say Hello to the future of forward-thinking services">
+	<link href="https://ltscdn.m6.nz/shell/main/stylesheets/vendor.css" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,700italic,300italic,300" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" media="screen" href="https://ltscdn.m6.nz/shell/main/stylesheets/global.css">
+	<link rel="stylesheet" media="screen" href="https://ltscdn.m6.nz/shell/main/stylesheets/pace-theme-flash.css">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://ltscdn.m6.nz/shell/main/images/favicons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="https://ltscdn.m6.nz/shell/main/images/favicons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="https://ltscdn.m6.nz/shell/main/images/favicons/favicon-16x16.png">
+	<link rel="manifest" href="https://ltscdn.m6.nz/shell/main/images/favicons/manifest.json">
+	<link rel="mask-icon" href="https://ltscdn.m6.nz/shell/main/images/favicons/safari-pinned-tab.svg" color="#5bbad5">
+	<link rel="shortcut icon" href="https://ltscdn.m6.nz/shell/main/images/favicons/favicon.ico">
+	<meta name="msapplication-config" content="https://ltscdn.m6.nz/shell/main/images/favicons/browserconfig.xml">
+	<meta name="theme-color" content="#ffffff">
+	<title>Monarch Shells: Your services, in the cloud</title>
+	<link rel="stylesheet" href="https://ltscdn.m6.nz/shell/main/stylesheets/jvfloat.css">
+	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script src="https://ltscdn.m6.nz/shell/main/js/gravatar.js"></script>
+	<script src="https://ltscdn.m6.nz/shell/main/js/c.js"></script>
+	<script src="https://ltscdn.m6.nz/shell/main/js/pace.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.js"></script>
+	<% if content_for?(:machine) %>
+	<style>
+	html{overflow: hidden !important;}
+	</style>
+	<% end %>
+	<script>
+	$.ajaxSetup({ contentType: "application/json; charset=utf-8", });
+		var host = window.location.hostname;
+		var pageContent;
+		var urlTest = /^https?:\/\//i;
+		$(function() {
+			$(document).ajaxStart(function() {
+				Pace.restart();
+			});
+		})
+
+		function getParameterByName(name, url) {
+			if (!url) url = window.location.href;
+			name = name.replace(/[\[\]]/g, "\\$&");
+			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+					results = regex.exec(url);
+			if (!results) return null;
+			if (!results[2]) return '';
+			return decodeURIComponent(results[2].replace(/\+/g, " "));
+		}
+				function loadPage(page, back) {
+					if (!urlTest.test(page) && page != null) {
+						$(document).off("click", "button[type=submit]");
+						$(document).off('click', '.emllst');
+						$(document).off('click', '#en2FA');
+						$(document).off('click', '#updProfile');
+						$(document).off('click', '#updPassword');
+						$(document).off('click', '#refreshKey');
+						$(document).off('click', '.enableUser');
+						$(document).off('click', '.disableUser');
+						$(document).off('click', '.provisionShell');
+						$(document).off('click', '.deprovisionShell');
+						$(document).off('click', '.makeAdmin');
+						$(document).off('click', '.makeUser');
+						$(document).off('click', '.dropUser');
+						$(document).off('click', '.disable2FA');
+						$(document).off('click', '#allowSSO');
+						$(document).off('click', '#denySSO');
+						$.ajax({
+							url: page,
+							type: 'GET',
+							success: function(data) {
+								$("body").attr("class", data.match(/body class=\"(.*?)\"/)[1]);
+								var content = $(data).filter('#contentWrapper');
+								$('#contentWrapper').html(content);
+								$('html, body').animate({
+									scrollTop: 0
+								}, 0);
+								if (page != '/') {
+									$('#indexStyle').remove();
+								}
+									if (back == null) {
+										history.pushState(null, null, page);
+									}
+							}
+						});
+					} else {
+						window.open(page, "_blank");
+					}
+				}
+				$(document).on('click', 'a', function(e) {
+					e.preventDefault();
+					if ($(this).attr("href") == "#top") {
+						$("html, body").animate({
+							scrollTop: 0
+						}, "slow");
+					} else if ($(this).find("button").attr("class") == "topCTA centerMobile" || $(this).attr("class") == "alt-font signinLink") {
+						$('#joinSpinner').addClass('activeSpinning');
+						loadPage($(this).attr("href"));
+					} else if ($(this).attr("href") === undefined) {
+						// Do nothing
+					} else {
+						$(this).find('.innerSpinner').addClass('activeSpinning');
+						loadPage($(this).attr("href"));
+					}
+				});
+				window.addEventListener('popstate', function(e) {
+					loadPage("/"+location.href.replace(/^(?:\/\/|[^\/]+)*\//, ""), "1");
+				});
+				$(document).on("click", "#logoutButton", function(e) {
+				    loadPage('/account/logout')
+				});
+				$(document).on("click", "#PSBUTTON", function(e) {
+					$('.psmenu').toggleClass('open');
+					e.stopPropagation();
+				});
+				$(document).click(function() {
+					if ($(".psmenu").hasClass("open")) {
+						$('.psmenu').removeClass('open');
+					}
+				});
+				function readCookie(name) {
+					var nameEQ = name + "=";
+					var ca = document.cookie.split(';');
+					for (var i = 0; i < ca.length; i++) {
+						var c = ca[i];
+						while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+						if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+					}
+					return null;
+				}
+			</script>
+	<script type="application/ld+json">
+		{
+			"@context": "http://schema.org",
+			"@type": "WebSite",
+			"name": "Monarch Shells",
+			"alternateName": "Your services, in the cloud",
+			"url": "https://monarchshells.com"
+		}
+	</script>
+	<% if content_for(:index) %>
+	<style id="indexStyle">
+		#footer {
+			background: #0e1219;
+		}
+
+		body {
+			background-color: white
+		}
+	</style>
+	<% end %>
+  <% if content_for(:inject_css) %>
+  <style>
+    <%= yield(:inject_css) %>
+  </style>
+  <% end %>
+</header>
+  <% if @current_user %>
+  <script>
+      setInterval(function() {
+          $.ajax({
+              type: 'GET',
+              url: 'http://localhost:3000/api/v1/details/<%= @current_user[:email] %>',
+              headers: {
+                  "Authorization": "Bearer <%= @current_user[:api_key] %>"
+              },
+              success: function (data) {
+                  if (data.status == "unauthorized") {
+                      loadPage('/account/logout')
+                  }
+              }
+          })
+      }, 60 * 1000)
+  </script>
+  <% end %>
+</head>

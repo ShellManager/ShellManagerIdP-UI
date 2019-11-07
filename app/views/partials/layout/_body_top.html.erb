@@ -1,0 +1,69 @@
+<body class="<% if((! content_for?(:console)) || (! content_for?(:machine))) %>no-js<% end %> <%= yield(:page_class) %>" <% if content_for?(:console) %>style=""<% end %>><div id="contentWrapper"><a name="top"></a>
+	<header id="header" class="topHeader">
+		<div id="header" <% if content_for?(:console) %>class="hidden invisible" style="flex-shrink: 0;"<% end %>>
+      <br>
+			<div id="headerCoverall"></div>
+			<div class="headerBlock container">
+        <div class="leftLogoBlock">
+          <div id="menuSelectPSOLD">
+						<a href="/" style="opacity:1.0" id="homeText">
+							<img src="https://ltscdn.m6.nz/shell/main/images/monarch.png" class="miniLogo"></a></div><a href="" style="font-family: 'flama'; font-weight: 400;" class="alt-font"> <span style="font-weight:600"></span><span></span></a></div>
+        <nav class="middleMenuItemsBlock"><%= link_to raw("<span class=\"innerSpinner\"></span>Our Services"), services_path, :class => "alt-font" %><%= link_to raw("<span class=\"innerSpinner\"></span>Donate"), "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AQT7MWQPN48S4", :class => "alt-font" %>
+					<%= link_to raw("<span id=\"joinSpinner\" class=\"innerSpinner\"></span>Join Us"), signup_path, :class => "alt-font" %></nav>
+        </nav>
+				<div class="rightCTABlock">
+          <% if @current_user %>
+          <ul style="display:flex; padding:0; align-items: center; margin-bottom: 0; flex-wrap: wrap;  flex-shrink: 0;" class="flexRightSignup">
+            <div class="flexPsButtonContainer">
+              <a href="/console">
+                <div class="button hollow mini flatgray consoleButton">Launch Console</div>
+              </a>
+              <div id="psButton" style="display:flex; align-items:center; justify-content:center" class="centerMobile">
+                <div><span class="PSPrimaryColor"> </span><span class="PSPrimaryColor"> </span></div>
+                <div class="dropdown"><button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding:5px" class="profile-dropdown-toggle"><span class="thumbnail-wrapper d32 circular inline"><%= image_tag gravatar(@current_user[:email], 200), :style => "display: inline;", :class => "gravatarImg" %></span></button>
+                  <ul
+                    role="menu" class="dropdown-menu profile-dropdown">
+                    <li><a href="/console"><i class="fs-14 pg-ui"> </i> Console</a></li>
+                    <li style="margin-top: 0px;"><a style="cursor:pointer;" class="clearfix"><span class="pull-left"><i class="pg-power"></i></span><span class="m-l-5">Logout</span></a></li>
+          </ul>
+          </div>
+          </div>
+          </div>
+          </ul>
+          <% else %>
+          <li class="signinLinkContainer"><a href="/account/login" class="alt-font signinLink">Sign In</a></li>
+          <li><a href="/account/signup"><button data-action="Entered waitlist funnel" class="topCTA centerMobile">Sign Up</button></a></li>
+          <% end %>
+        </div>
+      </div>
+			<% if content_for?(:console) %>
+			<style>
+				.mapboxgl-ctrl-bottom-right {
+					display: none;
+				}
+
+				#fixedHeader {
+					display: none !important;
+				}
+
+				#footer {
+					background: #0A0A13;
+				}
+			</style>
+			<% end %>
+    </div>
+		<% if content_for?(:index) %>
+			<%= render 'partials/layout/index' %>
+		<% end %>
+		<% if content_for?(:pricing) %>
+			<%= render 'partials/layout/pricing' %>
+		<% end %>
+		<% if((yield(:page_class) == "security") && (! content_for?(:services))) %>
+		<%= render 'partials/layout/security' %>
+		<% end %>
+		<% if content_for?(:services) %>
+			<%= render 'partials/layout/services' %>
+		<% end %>
+		<% if yield(:page_class) == "about" %>
+			<%= render 'partials/layout/about' %>
+		<% end %>

@@ -1,0 +1,76 @@
+<div class="col-xs-6 col-sm-3" style="cursor: pointer; margin: auto;">
+  <div class="mblockContainer hasBottomThings glowHover WindowsDesktop">
+    <div class="stateDot state-<%if @current_user[:shell_active] == "1" %>on<% else %>off<% end %>"></div>
+    <div>
+      <i class="gearInfo fa fa-cog"></i>
+    </div>
+    <div class="mblockContainerBG WindowsDesktop"></div>
+    <div class="inner" style="width: 100%;">
+      <div class="center mblock2 vmImage WindowsDesktop"><img src="https://ltscdn.m6.nz/shell/main/images/svg/cloudlinux.svg" style="max-width: 75px; margin: auto;">
+      </span>
+    </div>
+    <div title="Shell" class="center mblock2 vmName" style="margin-left: 0px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block; width: 100%; max-width: 200px;">
+      <div>Shell</div>
+    </div>
+    <div class="center mblock2 vmOs">CloudLinux</div>
+    <div class="center mblock2 machineTagHolder" style="text-overflow: ellipsis; white-space: nowrap;"></div>
+    <div class="center mblock2">
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <span class="state-<%if @current_user[:shell_active] == "1" %>on<% else %>off<% end %>" style="position: relative; display: flex; align-items: center; font-weight: 400;">
+          <div title="" class="psbadge psbadge-alert">
+            <span style="line-height: 18px;">!</span></div><%if @current_user[:shell_active] == "1" %>Ready<% else %>Pending<% end %></span></div>
+    </div>
+    <div class="bottomThings">
+    </div>
+  </div>
+</div>
+</div>
+<div class="col-xs-6 col-sm-3" style="cursor: pointer; margin: auto;" <%if @current_user[:shell_active] == "1" %>onclick="loadPage('<%= znc_path %>')"<% end %>>
+  <div class="mblockContainer hasBottomThings glowHover WindowsDesktop">
+    <div class="stateDot state-<%if @current_user[:shell_active] == "1" %>on<% else %>off<% end %>"></div>
+    <div class="mblockContainerBG WindowsDesktop"></div>
+    <div class="inner" style="width: 100%;">
+      <div class="center mblock2 vmImage WindowsDesktop"><img src="https://ltscdn.m6.nz/shell/main/images/znclogo.png" style="max-width: 35px; margin: auto;">
+        </span>
+      </div>
+      <div title="ZNC" class="center mblock2 vmName" style="margin-left: 0px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block; width: 100%; max-width: 200px;">
+        <div>ZNC</div>
+      </div>
+      <div class="center mblock2 vmOs">IRC Bouncer</div>
+      <div class="center mblock2 machineTagHolder" style="text-overflow: ellipsis; white-space: nowrap;"></div>
+      <div class="center mblock2">
+        <div style="display: flex; align-items: center; justify-content: center;">
+        <span class="state-<%if @current_user[:shell_active] == "1" %>on<% else %>off<% end %>" style="position: relative; display: flex; align-items: center; font-weight: 400;">
+          <div title="" class="psbadge psbadge-alert">
+            <span style="line-height: 18px;">!</span></div><%if @current_user[:shell_active] == "1" %>Ready<% else %>Pending<% end %></span></div>
+      </div>
+      <div class="bottomThings">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-xs-6 col-sm-3" style="cursor: pointer; margin: auto;" <%if @current_user[:shell_active] == "1" %>onclick="loadPage('<%= email_path %>')"<% end %>>
+  <div class="mblockContainer hasBottomThings glowHover WindowsDesktop">
+    <div class="stateDot state-<%if @current_user[:shell_active] == "1" %>on<% else %>off<% end %>"></div>
+    <div class="mblockContainerBG WindowsDesktop"></div>
+    <div class="inner" style="width: 100%;">
+      <div class="center mblock2 vmImage WindowsDesktop"><img src="https://ltscdn.m6.nz/shell/main/images/rainloop-white.png" style="max-width: 35px; margin: auto;">
+      </span>
+    </div>
+    <div title="Email" class="center mblock2 vmName" style="margin-left: 0px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block; width: 100%; max-width: 200px;">
+      <div>Email</div>
+    </div>
+    <div class="center mblock2 vmOs">Webmail client</div>
+    <br>
+    <div class="center mblock2 machineTagHolder" style="text-overflow: ellipsis; white-space: nowrap;"></div>
+    <div class="center mblock2">
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <span class="state-<%if @current_user[:shell_active] == "1" %>on<% else %>off<% end %>" style="position: relative; display: flex; align-items: center; font-weight: 400;">
+          <div title="" class="psbadge psbadge-alert">
+            <span style="line-height: 18px;">!</span></div><%if @current_user[:shell_active] == "1" %>Ready<% else %>Pending<% end %></span></div>
+    </div>
+    <div class="bottomThings">
+    </div>
+  </div>
+</div>
+</div>

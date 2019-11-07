@@ -1,0 +1,25 @@
+<% content_for :page_class, "undefined" %>
+<section id="content"><a name="content"></a>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="center m-t-100 m-b-100">
+        <h1>Email Confirmation</h1><br><br>
+        <p id="message">Hang tight while we confirm your email address...</p></div>
+    </div>
+  </div>
+</section>
+<script>
+$.post("http://localhost:3000/api/v1/verify",
+  JSON.stringify({
+      email: "<%= params[:email] %>",
+      code: "<%= params[:code] %>"
+  }),
+  function(data, status){
+    if(data.code == 'success'){
+      loadPage("/account/login");
+    } else {
+      console.log("DEBUG: "+data.code);
+      $('#message').html("Uh oh! That didn't work. Try clicking on the link again");
+    }
+  });
+</script>

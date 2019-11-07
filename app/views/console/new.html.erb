@@ -1,0 +1,92 @@
+<% content_for :console, 1 %>
+<% content_for :loggedin, 1 %>
+<% content_for :page_class, "teamWizard teamWizardDARK mobile js" %>
+<% content_for :console_services, 1 %>
+
+<section id="content"><a name="content"></a>
+  <div id="PSBUTTONCONTAINER"></div>
+  <div id="CONSOLE">
+    <div data-reactroot="">
+      <div class="tTop">
+        <div style="display: flex;">
+          <div style="display: flex;"><a href="/"><img src="https://ltscdn.m6.nz/shell/main/images/monarch.png" class="miniLogo" style="cursor: pointer;"></a></div><br></div>
+        <div class="tHeader">
+          <h1>Console<span class="subTitle"></span></h1></div>
+        <div id="PSBUTTON" class="noselect loaded">
+          <div class="accountName bold"><span class=""><% if ((@current_user[:first_name].present?) && (@current_user[:last_name].present?)) %><%= "#{@current_user[:first_name]} #{@current_user[:last_name]}" %><% else %><%= @current_user[:email] %><% end %></span></div>
+          <div class="gravContainer"><%= image_tag gravatar(@current_user[:email], 200), :class => "gravatarImg2" %></div>
+          <div class="psmenu">
+            <ul role="menu" class="dropdown-menu profile-dropdown" style="position: relative;">
+              <% if @current_user[:permission_level] <= 2 %>
+              <li style="margin-top: 0px;"><a href="<%= users_path %>" class="clearfix" style="cursor: pointer;"><span class="pull-left"><i class="fa fa-shield"></i></span><span class="m-l-5">Administration</span></a></li>
+              <% end %>
+              <li style="margin-top: 0px;" id="logoutButton"><a class="clearfix" style="cursor: pointer;"><span class="pull-left"><i class="pg-power"></i></span><span class="m-l-5">Logout</span></a></li>
+
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div style="margin: auto; max-width: 900px; padding: 0px 30px 30px;">
+        <%= render 'partials/layout/console_menu' %>
+        <div class="row">
+          <div class="col-md-12 tContent"><span></span>
+            <div>
+              <div><span><span></span>
+                <div>
+                  <div class="row m-b-30">
+                    <div class="col-sm-12 machineCountHeader">
+                      <div class="machineCount">
+                        <h2><span><span class="semi-bold"><% if @current_user[:shell_active] == false %>0<% else %>3<% end %>&nbsp;</span><span>Services Available</span></span></h2>
+                      </div>
+                      <div class="newMachine">
+                        <% if (@current_user[:first_name] != nil) && (@current_user[:last_name] != nil) && (@current_user[:shell_username] != nil) && (@current_user[:shell_active] == "0") %><a href="https://kiwiirc.com/nextclient/irc.freenode.net?nick=kiwi?&theme=dark#2ProShells">
+                        <% else %>
+                        <a href="<%= account_path %>">
+                        <% end %>
+                        <% if @current_user[:shell_active] == "0" %>
+                        <div class="button bigCreate">
+                          <% if (@current_user[:first_name] != nil) && (@current_user[:last_name] != nil) && (@current_user[:shell_username] != nil) && (@current_user[:shell_active] == "0") %>Get Access
+                          <% else %>
+                          Fix your account
+                          <% end %>
+                          <i class="pg-plus m-l-5"></i></div><% end %></a>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="filterMenu">
+                        <div class="filterButtonDropdown open">
+                        </div><span class="innerSpinner" style="border-color: rgb(212, 204, 204) rgb(248, 248, 248) rgb(248, 248, 248);"></span>
+                        <!--<div id="SearchBoxContainer">
+                          <div id="SearchBox" class=""><input placeholder="Search" value=""><span class="input-group-addon "><i class="pg-search"></i></span></div>
+                        </div>-->
+                      </div>
+                    </div>
+                  </div><span></span><br>
+                  <div>
+                    <div class="row m-t-15">
+                      <%= render 'partials/layout/device' %>
+                      <div style="position: relative;"></div>
+                    </div>
+                    <!--<div class="row">
+                      <div class="col-sm-12" id="react-paginate">
+                        <ul class="pagination">
+                          <li class="previous disabled"><a>previous</a></li>
+                          <li class="next"><a>next</a></li>
+                        </ul>
+                      </div>
+                    </div>-->
+                  </div>
+                  <hr>
+                  <div class="clearfix"></div>
+                  <div class="row"></div><br><br><br><br><noscript></noscript></div>
+                </span><noscript></noscript></div>
+            </div><br><br><br></div>
+        </div>
+      </div>
+      <div class="mapcontainer "></div>
+    </div>
+  </div>
+</section>

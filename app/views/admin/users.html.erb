@@ -1,0 +1,308 @@
+<% content_for :console, 1 %>
+<% content_for :loggedin, 1 %>
+<% content_for :page_class, "teamWizard teamWizardDARK mobile js" %>
+<section id="content"><a name="content"></a>
+  <div id="PSBUTTONCONTAINER"></div>
+  <div id="CONSOLE">
+    <div data-reactroot="">
+      <div class="tTop">
+        <div style="display: flex;">
+          <div style="display: flex;"><a href="/"><img src="https://ltscdn.m6.nz/shell/main/images/monarch.png" class="miniLogo" style="cursor: pointer;"></a></div><br></div>
+        <div class="tHeader">
+          <h1><!-- react-text: 10 -->Console<!-- /react-text --><!-- react-text: 11 --> <!-- /react-text --><span class="subTitle"></span></h1></div>
+          <div id="PSBUTTON" class="noselect loaded">
+            <div class="accountName bold"><span class=""><% if ((@current_user[:first_name].present?) && (@current_user[:last_name].present?)) %><%= @current_user[:first_name] %> <%= @current_user[:last_name] %><% else %><%= @current_user[:email] %><% end %></span></div>
+            <div class="gravContainer"><%= image_tag gravatar(@current_user[:email], 200), :class => "gravatarImg2" %></div>
+            <div class="psmenu">
+              <ul role="menu" class="dropdown-menu profile-dropdown" style="position: relative;">
+                <% if @current_user[:permission_level] <= 2 %>
+                <li style="margin-top: 0px;"><a href="<%= users_path %>" class="clearfix" style="cursor: pointer;"><span class="pull-left"><i class="fa fa-shield"></i></span><span class="m-l-5">Administration</span></a></li>
+                <% end %>
+                <li style="margin-top: 0px;" id="logoutButton"><a class="clearfix" style="cursor: pointer;"><span class="pull-left"><i class="pg-power"></i></span><span class="m-l-5">Logout</span></a></li>
+
+              </ul>
+            </div>
+          </div>
+      </div>
+      <div style="margin: auto; max-width: 900px; padding: 0px 30px 30px;">
+        <div class="tMenu">
+          <div class="tMenuEntry"><a class="alt-font" href="/console"><span>&larr; Home</span></a></div>
+          <div class="tMenuEntry"><a class="alt-font selected" href="/console/admin/users"><span>Users</span></a></div>
+          <div class="tMenuEntry"><a class="alt-font" href="/console/admin/nodes"><span>Nodes</span></a></div>
+          <div class="tMenuEntry"><a class="alt-font" href="/console/admin/hypervisors"><span>Hypervisors</span></a></div>
+          <div class="tMenuEntry"><a class="alt-font" href="/console/admin/payments"><span>Payments</span></a></div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 tContent"><span></span>
+            <div>
+              <div>
+                <div>
+                  <div class="row m-t-15">
+                    <div class="col-sm-12 m-b-15" style="min-height: 2em;"><span></span></div>
+                    <div class="col-sm-12">
+                      <table class="table machineTable" data-sort="table" style="backface-visibility: hidden;">
+                        <thead>
+                          <tr>
+                            <th class="headerTable">Name</th>
+                            <th class="headerTable" style="text-align: center;">Shell Username</th>
+                            <th class="headerTable">Email</th>
+                            <th class="headerTable">Date Signed Up</th>
+                            <th class="headerTable">Verified Email</th>
+                            <th class="headerTable">Enabled</th>
+                            <th class="headerTable">2FA Enabled</th>
+                            <th class="headerTable">Shell Provisioned</th>
+                            <th class="headerTable">Admin</th>
+                            <th class="headerTable">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12" id="react-paginate">
+                      <ul class="pagination">
+                        <li class="previous disabled"><a>previous</a></li>
+                        <li class="next disabled"><a>next</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div><br><br><br></div>
+          </div>
+        </div>
+        <div class="mapcontainer "></div>
+      </div>
+    </div>
+</section>
+<script>
+function strftime(sFormat, date) {
+  if (!(date instanceof Date)) date = new Date();
+  var nDay = date.getDay(),
+    nDate = date.getDate(),
+    nMonth = date.getMonth(),
+    nYear = date.getFullYear(),
+    nHour = date.getHours(),
+    aDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    aMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    aDayCount = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334],
+    isLeapYear = function() {
+      if ((nYear&3)!==0) return false;
+      return nYear%100!==0 || nYear%400===0;
+    },
+    getThursday = function() {
+      var target = new Date(date);
+      target.setDate(nDate - ((nDay+6)%7) + 3);
+      return target;
+    },
+    zeroPad = function(nNum, nPad) {
+      return ('' + (Math.pow(10, nPad) + nNum)).slice(1);
+    };
+  return sFormat.replace(/%[a-z]/gi, function(sMatch) {
+    return {
+      '%a': aDays[nDay].slice(0,3),
+      '%A': aDays[nDay],
+      '%b': aMonths[nMonth].slice(0,3),
+      '%B': aMonths[nMonth],
+      '%c': date.toUTCString(),
+      '%C': Math.floor(nYear/100),
+      '%d': zeroPad(nDate, 2),
+      '%e': nDate,
+      '%F': date.toISOString().slice(0,10),
+      '%G': getThursday().getFullYear(),
+      '%g': ('' + getThursday().getFullYear()).slice(2),
+      '%H': zeroPad(nHour, 2),
+      '%I': zeroPad((nHour+11)%12 + 1, 2),
+      '%j': zeroPad(aDayCount[nMonth] + nDate + ((nMonth>1 && isLeapYear()) ? 1 : 0), 3),
+      '%k': '' + nHour,
+      '%l': (nHour+11)%12 + 1,
+      '%m': zeroPad(nMonth + 1, 2),
+      '%M': zeroPad(date.getMinutes(), 2),
+      '%p': (nHour<12) ? 'AM' : 'PM',
+      '%P': (nHour<12) ? 'am' : 'pm',
+      '%s': Math.round(date.getTime()/1000),
+      '%S': zeroPad(date.getSeconds(), 2),
+      '%u': nDay || 7,
+      '%V': (function() {
+              var target = getThursday(),
+                n1stThu = target.valueOf();
+              target.setMonth(0, 1);
+              var nJan1 = target.getDay();
+              if (nJan1!==4) target.setMonth(0, 1 + ((4-nJan1)+7)%7);
+              return zeroPad(1 + Math.ceil((n1stThu-target)/604800000), 2);
+            })(),
+      '%w': '' + nDay,
+      '%x': date.toLocaleDateString(),
+      '%X': date.toLocaleTimeString(),
+      '%y': ('' + nYear).slice(2),
+      '%Y': nYear,
+      '%z': date.toTimeString().replace(/.+GMT([+-]\d+).+/, '$1'),
+      '%Z': date.toTimeString().replace(/.+\((.+?)\)$/, '$1')
+    }[sMatch] || sMatch;
+  });
+}
+$.post("https://services.sm.gomonar.ch/serv/admin/api/v1/get",
+  JSON.stringify({
+      token: readCookie("token")
+  }),
+function(data){
+  $.each(data, function(i, item){
+    console.log("DEBUG: Processing message "+i);
+    if(data[i].first_name == null) {
+      var name = "&lt;not set&gt;";
+    } else {
+      var name = data[i].first_name + ' ' + data[i].last_name;
+    }
+    if(data[i].shell_username == null){
+      var shell_username = "&lt;not set&gt;";
+    } else {
+      var shell_username = data[i].shell_username;
+    }
+    if(data[i].activated == "0"){
+      var active = "No";
+    } else {
+      var active = "Yes";
+    }
+    if(data[i].enabled == "0"){
+      var enabled = "<a title='Enable user' class='enableUser' style='cursor: pointer;'>No</a>";
+    } else {
+      var enabled = "<a title='Disable user' class='disableUser' style='cursor: pointer;'>Yes</a>";
+    }
+    if(data[i].tfa_enabled == "0"){
+      var tfa = "No";
+    } else {
+      var tfa = "<a title='Disable 2FA' class='disable2FA' style='cursor: pointer;'>Yes</a>";
+    }
+    if(data[i].shell == "0" || data[i].shell == null){
+      var shell = "<a title='Provision account' class='provisionShell' style='cursor: pointer;'>No</a>";
+    } else {
+      var shell = "<a title='Deprovision account' class='deprovisionShell' style='cursor: pointer;'>Yes</a>";
+    }
+    if(data[i].level == "0"){
+      var admin = "<a title='Make admin' class='makeAdmin' style='cursor: pointer;'>No</a>";
+    } else {
+      var admin = "<a title='Make user' class='makeUser' style='cursor: pointer;'>Yes</a>";
+    }
+
+    var msg = '<tr class="usrlst"> \
+      <td class="bodyTable">'+name+'</td> \
+      <td class="bodyTable" style="text-align: center;">'+shell_username+'</td> \
+      <td class="bodyTable emailSelect">'+data[i].email+'</td> \
+      <td class="bodyTable">'+strftime("%d/%m/%Y at %l:%M%P", new Date(data[i].created_at))+'</td> \
+      <td class="bodyTable">'+active+'</td> \
+      <td class="bodyTable">'+enabled+'</td> \
+      <td class="bodyTable">'+tfa+'</td> \
+      <td class="bodyTable">'+shell+'</td> \
+      <td class="bodyTable">'+admin+'</td> \
+      <td class="bodyTable"><a class="dropUser" style="cursor: pointer;">Drop</a></td>\
+    </tr>';
+    $('#tableBody').append(msg)
+  });
+});
+
+$(document).on('click', '.enableUser', function(e) {
+  e.preventDefault();
+  $.post("https://services.sm.gomonar.ch/serv/admin/api/v1/enable",
+    JSON.stringify({
+        token: readCookie("token"),
+        email: $(this).parent().parent().find(".bodyTable.emailSelect").html()
+    }),
+    $.proxy(function(data){
+      if(data.status == "success"){
+        $(this).parent().html("<a title='Disable user' class='disableUser' style='cursor: pointer;'>Yes</a>");
+      }
+    }, this));
+})
+$(document).on('click', '.disableUser', function(e) {
+  e.preventDefault();
+  $.post("https://services.sm.gomonar.ch/serv/admin/api/v1/disable",
+    JSON.stringify({
+        token: readCookie("token"),
+        email: $(this).parent().parent().find(".bodyTable.emailSelect").html()
+    }),
+    $.proxy(function(data){
+      if(data.status == "success"){
+        $(this).parent().html("<a title='Enable user' class='enableUser' style='cursor: pointer;'>No</a>");
+      }
+    }, this));
+})
+$(document).on('click', '.provisionShell', function(e) {
+  e.preventDefault();
+  $.post("https://services.sm.gomonar.ch/serv/admin/api/v1/provision",
+    JSON.stringify({
+        token: readCookie("token"),
+        email: $(this).parent().parent().find(".bodyTable.emailSelect").html()
+    }),
+    $.proxy(function(data){
+      if(data.status == "success"){
+        $(this).parent().html("<a title='Deprovision account' class='deprovisionShell' style='cursor: pointer;'>Yes</a>");
+      }
+    }, this));
+})
+$(document).on('click', '.deprovisionShell', function(e) {
+  e.preventDefault();
+  $.post("https://services.sm.gomonar.ch/serv/admin/api/v1/deprovision",
+    JSON.stringify({
+        token: readCookie("token"),
+        email: $(this).parent().parent().find(".bodyTable.emailSelect").html()
+    }),
+    $.proxy(function(data){
+      if(data.status == "success"){
+        $(this).parent().html("<a title='Provision account' class='provisionShell' style='cursor: pointer;'>No</a>");
+      }
+    }, this));
+})
+$(document).on('click', '.makeAdmin', function(e) {
+  e.preventDefault();
+  $.post("https://services.sm.gomonar.ch/serv/admin/api/v1/admin",
+    JSON.stringify({
+        token: readCookie("token"),
+        email: $(this).parent().parent().find(".bodyTable.emailSelect").html()
+    }),
+    $.proxy(function(data){
+      if(data.status == "success"){
+        $(this).parent().html("<a title='Make user' class='makeUser' style='cursor: pointer;'>Yes</a>");
+      }
+    }, this));
+})
+$(document).on('click', '.makeUser', function(e) {
+  e.preventDefault();
+  $.post("https://services.sm.gomonar.ch/serv/admin/api/v1/user",
+    JSON.stringify({
+        token: readCookie("token"),
+        email: $(this).parent().parent().find(".bodyTable.emailSelect").html()
+    }),
+    $.proxy(function(data){
+      if(data.status == "success"){
+        $(this).parent().html("<a title='Make admin' class='makeAdmin' style='cursor: pointer;'>No</a>");
+      }
+    }, this));
+})
+$(document).on('click', '.dropUser', function(e) {
+  e.preventDefault();
+  $.post("https://services.sm.gomonar.ch/serv/admin/api/v1/drop",
+    JSON.stringify({
+        token: readCookie("token"),
+        email: $(this).parent().parent().find(".bodyTable.emailSelect").html()
+    }),
+    $.proxy(function(data){
+      if(data.status == "success"){
+        $(this).parent().parent().remove();
+      }
+    }, this));
+})
+$(document).on('click', '.disable2FA', function(e) {
+  e.preventDefault();
+  $.post("https://services.sm.gomonar.ch/serv/admin/api/v1/disable2fa",
+    JSON.stringify({
+        token: readCookie("token"),
+        email: $(this).parent().parent().find(".bodyTable.emailSelect").html()
+    }),
+    $.proxy(function(data){
+      if(data.status == "success"){
+        $(this).parent().html("No");
+      }
+    }, this));
+})
+  </script>
