@@ -61,7 +61,7 @@
   $(function(){
       $.ajax({
           type: 'GET',
-          url: 'http://localhost:3000/api/v1/applications/<%= params[:client_id] %>',
+          url: 'https://api.id.m6.nz/api/v1/applications/<%= params[:client_id] %>',
           success: function(data){
               $("#promptbox").append(data.html)
               redirect_uri = data.redirect_uri
@@ -86,7 +86,7 @@
 
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:3000/api/v1/oauth/authorize',
+            url: 'https://api.id.m6.nz/api/v1/oauth/authorize',
             data: form,
             cache: false,
             contentType: false,

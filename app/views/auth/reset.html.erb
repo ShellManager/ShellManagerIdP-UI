@@ -58,7 +58,7 @@ $(document).on("click", "button[type=submit]", function(e){
 	$(this).find('.innerSpinner').addClass('activeSpinning');
 	$(this).prop("disabled", true);
 	var prop = this;
-	$.get("http://localhost:3000/api/v1/reset/"+ $("#email").val(),
+	$.get("https://api.id.m6.nz/api/v1/reset/"+ $("#email").val(),
     function(data, status){
         $(".hiddden.visible").fadeOut("slow", function() {
         $('.hiddden.visible').removeClass('visible');

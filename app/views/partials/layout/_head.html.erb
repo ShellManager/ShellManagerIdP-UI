@@ -165,7 +165,7 @@
       setInterval(function() {
           $.ajax({
               type: 'GET',
-              url: 'http://localhost:3000/api/v1/details/<%= @current_user[:email] %>',
+              url: 'https://api.id.m6.nz/api/v1/details/<%= @current_user[:email] %>',
               headers: {
                   "Authorization": "Bearer <%= @current_user[:api_key] %>"
               },

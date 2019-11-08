@@ -56,7 +56,7 @@
 </div>
 <script>
   $(function(){
-      redirect_uri = "http://localhost:3000/api/v1/saml/<%= params[:caller] %>?gid=<%= @current_user[:user_global_id] %>&api_key=<%= @current_user[:api_key] %>"
+      redirect_uri = "https://api.id.m6.nz/api/v1/saml/<%= params[:caller] %>?gid=<%= @current_user[:user_global_id] %>&api_key=<%= @current_user[:api_key] %>"
       setTimeout(function(){
           window.location = redirect_uri
       }, 2500)

@@ -44,7 +44,7 @@
 					var prop = this;
 					$.ajax({
               type: 'POST',
-              url: 'http://localhost:3000/api/v1/sessions',
+              url: 'https://api.id.m6.nz/api/v1/sessions',
               dataType: 'json',
               async: false,
               headers: {
@@ -55,7 +55,7 @@
                       apiKey = data.api_key
                       $.ajax({
                           type: 'GET',
-                          url: 'http://localhost:3000/api/v1/details/' + $("#email").val(),
+                          url: 'https://api.id.m6.nz/api/v1/details/' + $("#email").val(),
                           headers: {
                               "Authorization": "Bearer " + apiKey
                           },

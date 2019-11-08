@@ -132,7 +132,7 @@ function strftime(sFormat, date) {
 }
 $.ajax({
     type: 'GET',
-    url: 'http://localhost:3000/api/v1/logs',
+    url: 'https://api.id.m6.nz/api/v1/logs',
     headers: {
         "Authorization": "Bearer <%= @current_user[:api_key] %>"
     },
