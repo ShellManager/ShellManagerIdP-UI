@@ -16,6 +16,14 @@ class ApplicationController < ActionController::Base
     redirect_to "/account/login?returl=#{request.fullpath}" unless @current_user
   end
 
+  def current_admin
+    redirect_to "/console/account" unless @current_user[:permission_level] == 0
+  end
+
+  def home_if_logged_in
+    redirect_to "/console/account" if session[:user_json]
+  end
+
   def gravatar_url(email, size)
     gravatar = Digest::MD5::hexdigest(email).downcase
     url = "http://gravatar.com/avatar/#{gravatar}.png?s=#{size}"

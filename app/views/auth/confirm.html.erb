@@ -9,16 +9,14 @@
   </div>
 </section>
 <script>
-$.post("http://localhost:3000/api/v1/verify",
-  JSON.stringify({
-      email: "<%= params[:email] %>",
-      code: "<%= params[:code] %>"
-  }),
+$.get("http://localhost:3000/api/v1/verify/<%= params[:email] %>/<%= params[:code] %>",
   function(data, status){
-    if(data.code == 'success'){
-      loadPage("/account/login");
+    if(data.status == 'ok'){
+      $('#message').html("All done! Let's go to your account now...")
+      setTimeout(function(){
+        loadPage("/account/login")
+      }, 1500)
     } else {
-      console.log("DEBUG: "+data.code);
       $('#message').html("Uh oh! That didn't work. Try clicking on the link again");
     }
   });

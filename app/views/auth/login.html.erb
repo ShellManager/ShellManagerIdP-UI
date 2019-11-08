@@ -16,7 +16,7 @@
 						</form<br><br>
 						<div class="row">
 							<div class="center">
-								<a id="forgotPass" href="forgot.html">Forgot Password</a>
+								<a id="forgotPass" href="/account/forgot">Forgot Password</a>
 							</div>
 						</div>
 					</div>
@@ -72,7 +72,7 @@
                                       if (getParameterByName('returl') != null && !urlTest.test(getParameterByName('returl'))) {
                                           loadPage(decodeURIComponent(getParameterByName('returl').replace(/\+/g, '%20')))
                                       } else {
-                                          loadPage("/console");
+                                          loadPage("/console/account");
                                       }
                                   }
                               })
