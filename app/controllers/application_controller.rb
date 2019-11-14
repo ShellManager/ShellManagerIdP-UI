@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_session
-    redirect_to "/account/login?returl=#{request.fullpath}" unless @current_user
+    redirect_to "/account/login?returl=#{request.fullpath}", :only_path => true unless @current_user
   end
 
   def current_admin
