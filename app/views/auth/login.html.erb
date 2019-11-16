@@ -12,8 +12,9 @@
 						<div class="emailPasswordCredentialsBox"><input id="email" type="text" name="email" placeholder="Email" required="required" autofocus="autofocus" autocomplete="kthxbai" class="borderBottom"><br><input id="password" type="password" name="password" placeholder="Password" required="required" class="borderBottom"><br>
 							<div style="display: none" class="QRCodeMFALoginTokenBox"><input id="QRCodeMFALoginToken" type="number" pattern="[0-9]*" inputmode="numeric" name="QRCodeMFALoginToken" placeholder="Enter Code" class="borderBottom twoFactorInput"><br></div>
 							<button id="loginButton" type="submit" class="hollow blueCTA">
-								<span class="innerSpinner"></span><span class="innerText">Sign in</span></button>
-						</form<br><br>
+								<span class="innerSpinner"></span><span class="innerText">Sign in</span>
+              </button>
+						</form><br><br>
 						<div class="row">
 							<div class="center">
 								<a id="forgotPass" href="/account/forgot">Forgot Password</a>
@@ -25,6 +26,7 @@
 				<div class="clearfix"><br><br><br></div>
 			</section>
 			<script>
+        multifactor = 0
 				function setCookie(cname, cvalue, ctime) {
 					var d = new Date();
 					d.setTime(d.getTime() + (ctime * 60 * 1000));
@@ -42,52 +44,108 @@
 					$(this).find('.innerSpinner').addClass('activeSpinning');
 					$(this).prop("disabled", true);
 					var prop = this;
-					$.ajax({
-              type: 'POST',
-              url: 'http://localhost:3000/api/v1/sessions',
-              dataType: 'json',
-              async: false,
-              headers: {
-                  "Authorization": "Bearer " + btoa($("#email").val() + ":" + $("#password").val())
-              },
-              success: function (data) {
-                  if(data.status == "ok") {
-                      apiKey = data.api_key
-                      $.ajax({
-                          type: 'GET',
-                          url: 'http://localhost:3000/api/v1/details/' + $("#email").val(),
-                          headers: {
-                              "Authorization": "Bearer " + apiKey
-                          },
-                          success: function (data) {
-                              $.ajax({
-                                  type: 'POST',
-                                  url: '/account/login',
-                                  data: JSON.stringify(data.user_details[0]),
-                                  dataType: 'json',
-                                  headers: {
-                                      "Authorization": "Bearer " + apiKey
-                                  },
-                                  success: function () {
-                                      if (getParameterByName('returl') != null && !urlTest.test(getParameterByName('returl'))) {
-                                          loadPage(decodeURIComponent(getParameterByName('returl').replace(/\+/g, '%20')))
-                                      } else {
-                                          loadPage("/console/account");
+					if (multifactor == 0) {
+              $.ajax({
+                  type: 'POST',
+                  url: 'http://localhost:3000/api/v1/sessions',
+                  dataType: 'json',
+                  async: false,
+                  headers: {
+                      "Authorization": "Bearer " + btoa($("#email").val() + ":" + $("#password").val())
+                  },
+                  success: function (data) {
+                      if (data.status == "ok") {
+                          apiKey = data.api_key
+                          $.ajax({
+                              type: 'GET',
+                              url: 'http://localhost:3000/api/v1/details/' + $("#email").val(),
+                              headers: {
+                                  "Authorization": "Bearer " + apiKey
+                              },
+                              success: function (data) {
+                                  $.ajax({
+                                      type: 'POST',
+                                      url: '/account/login',
+                                      data: JSON.stringify(data.user_details[0]),
+                                      dataType: 'json',
+                                      headers: {
+                                          "Authorization": "Bearer " + apiKey
+                                      },
+                                      success: function () {
+                                          if (getParameterByName('returl') != null && !urlTest.test(getParameterByName('returl'))) {
+                                              loadPage(decodeURIComponent(getParameterByName('returl').replace(/\+/g, '%20')))
+                                          } else {
+                                              loadPage("/console/account");
+                                          }
                                       }
-                                  }
-                              })
-                          }
-                      })
-                  } else {
-                      $('.borderBottom').attr('disabled', false).attr('style', 'border-color: red;');
-                      $(prop).find('.innerSpinner').removeClass('activeSpinning');
-                      $(prop).prop("disabled", false);
-                      setTimeout(function () {
-                          $('.borderBottom').removeAttr('style');
-                      }, 3000)
+                                  })
+                              }
+                          })
+                      } else if (data.status == "unauthorized") {
+                          $("#email").hide();
+                          $("#password").hide();
+                          $(prop).find('.innerSpinner').removeClass('activeSpinning');
+                          $(prop).prop("disabled", false);
+                          $(".QRCodeMFALoginTokenBox").show();
+                          $("#QRCodeMFALoginToken").prop("disabled", false)
+                          multifactor = 1
+                      } else {
+                          $('.borderBottom').attr('disabled', false).attr('style', 'border-color: red;');
+                          $(prop).find('.innerSpinner').removeClass('activeSpinning');
+                          $(prop).prop("disabled", false);
+                          setTimeout(function () {
+                              $('.borderBottom').removeAttr('style');
+                          }, 3000)
+                      }
                   }
-              }
-          })
+              })
+          } else {
+              $.ajax({
+                  type: 'POST',
+                  url: 'http://localhost:3000/api/v1/multifactor?validate=1',
+                  data: JSON.stringify({
+                      code: $("#QRCodeMFALoginToken").val(),
+                      email: $("#email").val()
+                  }),
+                  success: function(data){
+                      if (data.status == "ok"){
+                          apiKey = data.api_key
+                          $.ajax({
+                              type: 'GET',
+                              url: 'http://localhost:3000/api/v1/details/' + $("#email").val(),
+                              headers: {
+                                  "Authorization": "Bearer " + apiKey
+                              },
+                              success: function (data) {
+                                  $.ajax({
+                                      type: 'POST',
+                                      url: '/account/login',
+                                      data: JSON.stringify(data.user_details[0]),
+                                      dataType: 'json',
+                                      headers: {
+                                          "Authorization": "Bearer " + apiKey
+                                      },
+                                      success: function () {
+                                          if (getParameterByName('returl') != null && !urlTest.test(getParameterByName('returl'))) {
+                                              loadPage(decodeURIComponent(getParameterByName('returl').replace(/\+/g, '%20')))
+                                          } else {
+                                              loadPage("/console/account");
+                                          }
+                                      }
+                                  })
+                              }
+                          })
+                      } else {
+                          $('.borderBottom').attr('disabled', false).attr('style', 'border-color: red;');
+                          $(prop).find('.innerSpinner').removeClass('activeSpinning');
+                          $(prop).prop("disabled", false);
+                          setTimeout(function () {
+                              $('.borderBottom').removeAttr('style');
+                          }, 3000)
+                      }
+                  }
+                  })
+          }
 				});
 
 				if (!window.location.pathname.includes('login')){
