@@ -225,6 +225,24 @@ $(document).on('click', '#updProfile', function(e) {
             $('.accountName.bold > span').val('');
             $('input[name=firstName]').val('');
             $('input[name=lastName]').val('');
+          $.ajax({
+              type: 'GET',
+              url: 'http://localhost:3000/api/v1/details/<%= @current_user[:email] %>',
+              headers: {
+                  "Authorization": "Bearer " + apiKey
+              },
+              success: function (data) {
+                  $.ajax({
+                      type: 'POST',
+                      url: '/account/login',
+                      data: JSON.stringify(data.user_details[0]),
+                      dataType: 'json',
+                      headers: {
+                          "Authorization": "Bearer " + apiKey
+                      }
+                  })
+              }
+          })
             $('#infoText').html('Congrats! Profile updated.');
             setTimeout(function(){
               $('#infoText').html('Update your personal details here.');
