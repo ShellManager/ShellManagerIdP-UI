@@ -7,8 +7,7 @@ Rails.application.routes.draw do
     get '/aup' => 'public#aup', as: :aup
   end
   scope '/federation' do
-    get '/oauth' => 'oauth#prompt'
-    get '/saml' => 'saml#inform'
+    get '/authorize' => "flow#prompt"
   end
   scope '/account' do
     get '/login' => 'auth#login', as: :login

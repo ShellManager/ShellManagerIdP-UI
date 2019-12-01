@@ -46,7 +46,6 @@
                             <th class="headerTable">Verified Email</th>
                             <th class="headerTable">Enabled</th>
                             <th class="headerTable">2FA Enabled</th>
-                            <th class="headerTable">SAML Login Enabled</th>
                             <th class="headerTable">Admin</th>
                             <th class="headerTable">Actions</th>
                           </tr>
@@ -172,11 +171,6 @@ $.ajax({
         } else {
           var tfa = "<a title='Disable 2FA' class='disable2FA' style='cursor: pointer;'>Yes</a>";
         }
-        if(data.users[i].saml_enabled == false || data.users[i].saml_enabled == null){
-          var saml = "<a title='Enable SAML Login' class='enableSaml' style='cursor: pointer;'>No</a>"
-        } else {
-          var saml = "<a title='Disable SAML Login' class='disableSaml' style='cursor: pointer;'>Yes</a>"
-        }
         if(data.users[i].permission_level == 99){
           var admin = "<a title='Make admin' class='makeAdmin' style='cursor: pointer;'>No</a>";
         } else {
@@ -190,7 +184,6 @@ $.ajax({
           <td class="bodyTable">'+active+'</td> \
           <td class="bodyTable">'+enabled+'</td> \
           <td class="bodyTable">'+tfa+'</td> \
-          <td class="bodyTable">'+saml+'</td> \
           <td class="bodyTable">'+admin+'</td> \
           <td class="bodyTable"><a class="dropUser" style="cursor: pointer;">Drop</a></td>\
         </tr>';

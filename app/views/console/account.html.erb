@@ -220,6 +220,11 @@ $(document).on('click', '#updProfile', function(e) {
     success: function(data){
       if(data.user_updated == true){
         $('.accountName.bold > span').prop('placeholder', data.first_name+' '+data.last_name);
+            $('input[name=firstName]').prop('placeholder', data.first_name);
+            $('input[name=lastName]').prop('placeholder', data.last_name);
+            $('.accountName.bold > span').val('');
+            $('input[name=firstName]').val('');
+            $('input[name=lastName]').val('');
           $.ajax({
               type: 'GET',
               url: 'https://api.id.m6.nz/api/v1/details/<%= @current_user[:email] %>',
@@ -227,11 +232,6 @@ $(document).on('click', '#updProfile', function(e) {
                   "Authorization": "Bearer " + apiKey
               },
               success: function (data) {
-                  $('input[name=firstName]').prop('placeholder', data.first_name);
-                  $('input[name=lastName]').prop('placeholder', data.last_name);
-                  $('.accountName.bold > span').val('');
-                  $('input[name=firstName]').val('');
-                  $('input[name=lastName]').val('');
                   $.ajax({
                       type: 'POST',
                       url: '/account/login',
@@ -316,4 +316,3 @@ $(document).on('click', '#updPassword', function(e) {
       })
     })
 </script>
-
