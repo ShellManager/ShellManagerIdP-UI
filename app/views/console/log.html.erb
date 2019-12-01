@@ -8,7 +8,7 @@
     <div data-reactroot="">
       <div class="tTop">
         <div style="display: flex;">
-          <div style="display: flex;"><a href="/"><img src="https://ltscdn.m6.nz/shell/main/images/monarch.png" class="miniLogo" style="cursor: pointer;"></a></div><br></div>
+          <div style="display: flex;"><a href="/"><img src="https://ltscdn.m6.nz/metro/assets/images/metro_white.png" class="miniLogo" style="cursor: pointer;"></a></div><br></div>
         <div class="tHeader">
           <h1><!-- react-text: 10 -->Console<!-- /react-text --><!-- react-text: 11 --> <!-- /react-text --><span class="subTitle"></span></h1></div>
           <div id="PSBUTTON" class="noselect loaded">
@@ -132,7 +132,7 @@ function strftime(sFormat, date) {
 }
 $.ajax({
     type: 'GET',
-    url: 'http://localhost:3000/api/v1/logs',
+    url: 'https://api.id.m6.nz/api/v1/logs',
     headers: {
         "Authorization": "Bearer <%= @current_user[:api_key] %>"
     },

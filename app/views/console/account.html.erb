@@ -9,7 +9,7 @@
     <div data-reactroot="">
       <div class="tTop">
         <div style="display: flex;">
-          <div style="display: flex;"><a href="/"><img src="https://ltscdn.m6.nz/shell/main/images/monarch.png" class="miniLogo" style="cursor: pointer;"></a></div><br></div>
+          <div style="display: flex;"><a href="/"><img src="https://ltscdn.m6.nz/metro/assets/images/metro_white.png" class="miniLogo" style="cursor: pointer;"></a></div><br></div>
         <div class="tHeader">
           <h1><!-- react-text: 10 -->Console<!-- /react-text --><!-- react-text: 11 --> <!-- /react-text --><span class="subTitle"></span></h1></div>
           <div id="PSBUTTON" class="noselect loaded">
@@ -131,7 +131,7 @@
 <script>
 $.ajax({
       type: 'GET',
-      url: 'http://localhost:3000/api/v1/keys',
+      url: 'https://api.id.m6.nz/api/v1/keys',
       headers: {
           "Authorization": "Bearer <%= @current_user[:api_key] %>"
       },
@@ -158,7 +158,7 @@ $(document).on('click', '#en2FA', function(e) {
   var prop = this;
   $.ajax({
         type: 'POST',
-        url: 'http://localhost:3000/api/v1/multifactor',
+        url: 'https://api.id.m6.nz/api/v1/multifactor',
         headers: {
             "Authorization": "Bearer <%= @current_user[:api_key] %>"
         },
@@ -173,7 +173,7 @@ $(document).on('click', '#en2FA', function(e) {
             $(prop).prop("disabled", false);
             $.ajax({
                   type: 'GET',
-                  url: 'http://localhost:3000/api/v1/keys',
+                  url: 'https://api.id.m6.nz/api/v1/keys',
                   headers: {
                       "Authorization": "Bearer <%= @current_user[:api_key] %>"
                   },
@@ -209,7 +209,7 @@ $(document).on('click', '#updProfile', function(e) {
 
   $.ajax({
     type: 'PATCH',
-    url: 'http://localhost:3000/api/v1/users/<%= @current_user[:email] %>',
+    url: 'https://api.id.m6.nz/api/v1/users/<%= @current_user[:email] %>',
     headers: {
         "Authorization": "Bearer <%= @current_user[:api_key] %>"
     },
@@ -220,18 +220,18 @@ $(document).on('click', '#updProfile', function(e) {
     success: function(data){
       if(data.user_updated == true){
         $('.accountName.bold > span').prop('placeholder', data.first_name+' '+data.last_name);
-            $('input[name=firstName]').prop('placeholder', data.first_name);
-            $('input[name=lastName]').prop('placeholder', data.last_name);
-            $('.accountName.bold > span').val('');
-            $('input[name=firstName]').val('');
-            $('input[name=lastName]').val('');
           $.ajax({
               type: 'GET',
-              url: 'http://localhost:3000/api/v1/details/<%= @current_user[:email] %>',
+              url: 'https://api.id.m6.nz/api/v1/details/<%= @current_user[:email] %>',
               headers: {
                   "Authorization": "Bearer " + apiKey
               },
               success: function (data) {
+                  $('input[name=firstName]').prop('placeholder', data.first_name);
+                  $('input[name=lastName]').prop('placeholder', data.last_name);
+                  $('.accountName.bold > span').val('');
+                  $('input[name=firstName]').val('');
+                  $('input[name=lastName]').val('');
                   $.ajax({
                       type: 'POST',
                       url: '/account/login',
@@ -269,7 +269,7 @@ $(document).on('click', '#updPassword', function(e) {
 
   $.ajax({
     type: 'PATCH',
-    url: 'http://localhost:3000/api/v1/users/<%= @current_user[:email] %>',
+    url: 'https://api.id.m6.nz/api/v1/users/<%= @current_user[:email] %>',
     headers: {
         "Authorization": "Bearer <%= @current_user[:api_key] %>"
     },
@@ -304,7 +304,7 @@ $(document).on('click', '#updPassword', function(e) {
 
       $.ajax({
         type: 'DELETE',
-        url: 'http://localhost:3000/api/v1/keys/' + $("#email").val(),
+        url: 'https://api.id.m6.nz/api/v1/keys/' + $("#email").val(),
         headers: {
             "Authorization": "Bearer <%= @current_user[:api_key] %>" 
         },
@@ -316,3 +316,4 @@ $(document).on('click', '#updPassword', function(e) {
       })
     })
 </script>
+
