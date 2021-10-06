@@ -9,7 +9,7 @@
   </div>
 </section>
 <script>
-$.get("https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/verify/<%= params[:email] %>/<%= params[:code] %>",
+$.get("<%= ENV['IDENTITY_API_PROTOCOL'] %>://<%= ENV['IDENTITY_API_URL'] %>/api/v1/verify/<%= params[:email] %>/<%= params[:code] %>",
   function(data, status){
     if(data.status == 'ok'){
       $('#message').html("All done! Let's go to your account now...")

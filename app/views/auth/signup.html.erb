@@ -61,7 +61,7 @@ $(document).on("click", "button[type=submit]", function(e){
 	$(this).find('.innerSpinner').addClass('activeSpinning');
 	$(this).prop("disabled", true);
 	var prop = this;
-	$.post("https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/users",
+	$.post("<%= ENV['IDENTITY_API_PROTOCOL'] %>://<%= ENV['IDENTITY_API_URL'] %>/api/v1/users",
     JSON.stringify({ user: {
         email: $("#email").val(),
         password: $("#password").val()

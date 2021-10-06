@@ -58,7 +58,7 @@ $(document).on("click", "button[type=submit]", function(e){
 	$(this).find('.innerSpinner').addClass('activeSpinning');
 	$(this).prop("disabled", true);
 	var prop = this;
-	$.get("https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/reset/"+ $("#email").val(),
+	$.get("<%= ENV['IDENTITY_API_PROTOCOL'] %>://<%= ENV['IDENTITY_API_URL'] %>/api/v1/reset/"+ $("#email").val(),
     function(data, status){
         $(".hiddden.visible").fadeOut("slow", function() {
         $('.hiddden.visible').removeClass('visible');

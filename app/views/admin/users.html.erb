@@ -140,7 +140,7 @@ function strftime(sFormat, date) {
 
 $.ajax({
     type: 'GET',
-    url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/admin',
+    url: '<%= ENV['IDENTITY_API_PROTOCOL'] %>://<%= ENV['IDENTITY_API_URL'] %>/api/v1/admin',
     headers: {
         "Authorization": "Bearer <%= @current_user[:api_key] %>"
     },
@@ -199,7 +199,7 @@ $(document).on('click', '.enableUser', function(e) {
 
   $.ajax({
     type: 'GET',
-    url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/admin/enable/'+email,
+    url: '<%= ENV['IDENTITY_API_PROTOCOL'] %>://<%= ENV['IDENTITY_API_URL'] %>/api/v1/admin/enable/'+email,
     headers: {
         "Authorization": "Bearer <%= @current_user[:api_key] %>"
     },
@@ -218,7 +218,7 @@ $(document).on('click', '.disableUser', function(e) {
 
   $.ajax({
     type: 'GET',
-    url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/admin/disable/'+email,
+    url: '<%= ENV['IDENTITY_API_PROTOCOL'] %>://<%= ENV['IDENTITY_API_URL'] %>/api/v1/admin/disable/'+email,
     headers: {
         "Authorization": "Bearer <%= @current_user[:api_key] %>"
     },
@@ -237,7 +237,7 @@ $(document).on('click', '.enableSaml', function(e) {
 
   $.ajax({
     type: 'GET',
-    url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/admin/saml/'+email,
+    url: '<%= ENV['IDENTITY_API_PROTOCOL'] %>://<%= ENV['IDENTITY_API_URL'] %>/api/v1/admin/saml/'+email,
     headers: {
         "Authorization": "Bearer <%= @current_user[:api_key] %>"
     },
@@ -256,7 +256,7 @@ $(document).on('click', '.disableSaml', function(e) {
 
   $.ajax({
     type: 'GET',
-    url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/admin/nosaml/'+email,
+    url: '<%= ENV['IDENTITY_API_PROTOCOL'] %>://<%= ENV['IDENTITY_API_URL'] %>/api/v1/admin/nosaml/'+email,
     headers: {
         "Authorization": "Bearer <%= @current_user[:api_key] %>"
     },
@@ -275,7 +275,7 @@ $(document).on('click', '.makeAdmin', function(e) {
 
   $.ajax({
     type: 'GET',
-    url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/admin/admin/'+email,
+    url: '<%= ENV['IDENTITY_API_PROTOCOL'] %>://<%= ENV['IDENTITY_API_URL'] %>/api/v1/admin/admin/'+email,
     headers: {
         "Authorization": "Bearer <%= @current_user[:api_key] %>"
     },
@@ -293,7 +293,7 @@ $(document).on('click', '.makeUser', function(e) {
 
   $.ajax({
     type: 'GET',
-    url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/admin/user/'+email,
+    url: '<%= ENV['IDENTITY_API_PROTOCOL'] %>://<%= ENV['IDENTITY_API_URL'] %>/api/v1/admin/user/'+email,
     headers: {
         "Authorization": "Bearer <%= @current_user[:api_key] %>"
     },
@@ -311,7 +311,7 @@ $(document).on('click', '.dropUser', function(e) {
 
   $.ajax({
     type: 'GET',
-    url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/admin/delete/'+email,
+    url: '<%= ENV['IDENTITY_API_PROTOCOL'] %>://<%= ENV['IDENTITY_API_URL'] %>/api/v1/admin/delete/'+email,
     headers: {
         "Authorization": "Bearer <%= @current_user[:api_key] %>"
     },
@@ -327,7 +327,7 @@ $(document).on('click', '.disable2FA', function(e) {
 
   $.ajax({
     type: 'GET',
-    url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/admin/2fa/'+email,
+    url: '<%= ENV['IDENTITY_API_PROTOCOL'] %>://<%= ENV['IDENTITY_API_URL'] %>/api/v1/admin/2fa/'+email,
     headers: {
         "Authorization": "Bearer <%= @current_user[:api_key] %>"
     },

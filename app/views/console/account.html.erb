@@ -131,7 +131,7 @@
 <script>
 $.ajax({
       type: 'GET',
-      url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/keys',
+      url: '<%= ENV['IDENTITY_API_PROTOCOL'] %>://<%= ENV['IDENTITY_API_URL'] %>/api/v1/keys',
       headers: {
           "Authorization": "Bearer <%= @current_user[:api_key] %>"
       },
@@ -158,7 +158,7 @@ $(document).on('click', '#en2FA', function(e) {
   var prop = this;
   $.ajax({
         type: 'POST',
-        url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/multifactor',
+        url: '<%= ENV['IDENTITY_API_PROTOCOL'] %>://<%= ENV['IDENTITY_API_URL'] %>/api/v1/multifactor',
         headers: {
             "Authorization": "Bearer <%= @current_user[:api_key] %>"
         },
@@ -173,7 +173,7 @@ $(document).on('click', '#en2FA', function(e) {
             $(prop).prop("disabled", false);
             $.ajax({
                   type: 'GET',
-                  url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/keys',
+                  url: '<%= ENV['IDENTITY_API_PROTOCOL'] %>://<%= ENV['IDENTITY_API_URL'] %>/api/v1/keys',
                   headers: {
                       "Authorization": "Bearer <%= @current_user[:api_key] %>"
                   },
@@ -209,7 +209,7 @@ $(document).on('click', '#updProfile', function(e) {
 
   $.ajax({
     type: 'PATCH',
-    url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/users/<%= @current_user[:email] %>',
+    url: '<%= ENV['IDENTITY_API_PROTOCOL'] %>://<%= ENV['IDENTITY_API_URL'] %>/api/v1/users/<%= @current_user[:email] %>',
     headers: {
         "Authorization": "Bearer <%= @current_user[:api_key] %>"
     },
@@ -227,7 +227,7 @@ $(document).on('click', '#updProfile', function(e) {
             $('input[name=lastName]').val('');
           $.ajax({
               type: 'GET',
-              url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/details/<%= @current_user[:email] %>',
+              url: '<%= ENV['IDENTITY_API_PROTOCOL'] %>://<%= ENV['IDENTITY_API_URL'] %>/api/v1/details/<%= @current_user[:email] %>',
               headers: {
                   "Authorization": "Bearer " + apiKey
               },
@@ -269,7 +269,7 @@ $(document).on('click', '#updPassword', function(e) {
 
   $.ajax({
     type: 'PATCH',
-    url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/users/<%= @current_user[:email] %>',
+    url: '<%= ENV['IDENTITY_API_PROTOCOL'] %>://<%= ENV['IDENTITY_API_URL'] %>/api/v1/users/<%= @current_user[:email] %>',
     headers: {
         "Authorization": "Bearer <%= @current_user[:api_key] %>"
     },
@@ -304,7 +304,7 @@ $(document).on('click', '#updPassword', function(e) {
 
       $.ajax({
         type: 'DELETE',
-        url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/keys/' + $("#email").val(),
+        url: '<%= ENV['IDENTITY_API_PROTOCOL'] %>://<%= ENV['IDENTITY_API_URL'] %>/api/v1/keys/' + $("#email").val(),
         headers: {
             "Authorization": "Bearer <%= @current_user[:api_key] %>" 
         },

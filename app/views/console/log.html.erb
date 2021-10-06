@@ -132,7 +132,7 @@ function strftime(sFormat, date) {
 }
 $.ajax({
     type: 'GET',
-    url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/logs',
+    url: '<%= ENV['IDENTITY_API_PROTOCOL'] %>://<%= ENV['IDENTITY_API_URL'] %>/api/v1/logs',
     headers: {
         "Authorization": "Bearer <%= @current_user[:api_key] %>"
     },
