@@ -1,5 +1,5 @@
 <footer id="footer">
-  <div class="logo small"><a href="/">The Monarch Network</a></div>
+  <div class="logo small"><a href="/">The <%= ENV['APP_COMPANY_NAME'] %> Network</a></div>
   <nav id="footerNav">
     <ul>
       <li class="sections">
@@ -13,8 +13,8 @@
       </li>
   </nav>
     <div class="bottompart">
-    <div class="copyright alt-font">&copy; 2019 <%= ENV['APP_COMPANY_NAME'] %>, Inc. | <%= ENV['APP_BRAND_STRING'] %> Version <%= Time.now.strftime("%Y%m%d") %></div>
-    <div class="pshq"><i class="icon icon_pin"></i> Auckland, NZ</div>
+    <div class="copyright alt-font">&copy; 2019 <%= ENV['APP_COMPANY_NAME'] %> | <%= ENV['APP_BRAND_STRING'] %> Version <%= Time.now.strftime("%Y%m%d") %></div>
+    <div class="pshq"><i class="icon icon_pin"></i> <%= ENV['APP_COUNTRY_STRING'] %></div>
   </div>
   <a href="#top" class="slide-round">
     <div class="overflow"><svg viewbox="0 0 56 56" style="enable-background:new 0 0 56 56;" xml:space="preserve" class="off"><polygon points="23.5,28.2 31.3,36 32,35.3 24.2,27.5 32,19.7 31.3,19 23.5,26.8 22.8,27.5"></polygon></svg><svg viewbox="0 0 56 56" style="enable-background:new 0 0 56 56;"
