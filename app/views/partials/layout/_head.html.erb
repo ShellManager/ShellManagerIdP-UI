@@ -5,22 +5,22 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta property="og:title" content="ShellManager Identity - The one stop SAML shop">
+	<meta property="og:title" content="<%= ENV['APP_BRAND_STRING'] %> - The one stop SAML shop">
 	<meta property="og:image" content="https://ltscdn.m6.nz/shell/main/images/facebook-xproshells.png">
 	<meta property="og:description" content="Say Hello to the future of forward-thinking services">
 	<link href="https://ltscdn.m6.nz/shell/main/stylesheets/vendor.css" rel="stylesheet" type="text/css">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,700italic,300italic,300" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" media="screen" href="https://ltscdn.m6.nz/shell/main/stylesheets/global.css">
 	<link rel="stylesheet" media="screen" href="https://ltscdn.m6.nz/shell/main/stylesheets/pace-theme-flash.css">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://ltscdn.m6.nz/shell/main/images/favicons/apple-touch-icon.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="https://ltscdn.m6.nz/shell/main/images/favicons/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="https://ltscdn.m6.nz/shell/main/images/favicons/favicon-16x16.png">
-	<link rel="manifest" href="https://ltscdn.m6.nz/shell/main/images/favicons/manifest.json">
-	<link rel="mask-icon" href="https://ltscdn.m6.nz/shell/main/images/favicons/safari-pinned-tab.svg" color="#5bbad5">
-	<link rel="shortcut icon" href="https://ltscdn.m6.nz/shell/main/images/favicons/favicon.ico">
-	<meta name="msapplication-config" content="https://ltscdn.m6.nz/shell/main/images/favicons/browserconfig.xml">
-	<meta name="theme-color" content="#ffffff">
-	<title>ShellManager Identity</title>
+	<link rel="apple-touch-icon" sizes="180x180" href="<%= ENV['ICON_APPLE_TOUCH_ICON_URL'] %>">
+	<link rel="icon" type="image/png" sizes="32x32" href="<%= ENV['ICON_32X32_URL'] %>">
+	<link rel="icon" type="image/png" sizes="16x16" href="<%= ENV['ICON_16X16_URL'] %>">
+	<link rel="manifest" href="<%= ENV['ICON_MANIFEST_URL'] %>">
+	<link rel="mask-icon" href="<%= ENV['ICON_SAFARI_PINNED_TAB_URL'] %>" color="#<%= ENV['ICON_SAFARI_PINNED_TAB_COLOR'] %>">
+	<link rel="shortcut icon" href="<%= ENV['ICON_FAVICON_URL'] %>">
+	<meta name="msapplication-config" content="<%= ENV['ICON_BROWSERCONFIG_URL'] %>">
+	<meta name="theme-color" content="#<%= ENV['BRAND_THEME_COLOR'] %>">
+	<title><%= ENV['APP_BRAND_STRING'] %></title>
 	<link rel="stylesheet" href="https://ltscdn.m6.nz/shell/main/stylesheets/jvfloat.css">
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="https://ltscdn.m6.nz/shell/main/js/gravatar.js"></script>
@@ -138,9 +138,8 @@
 		{
 			"@context": "http://schema.org",
 			"@type": "WebSite",
-			"name": "ShellManager Identity",
-			"alternateName": "Your one stop SAML shop",
-			"url": "https://monarchshells.com"
+			"name": "<%= ENV['APP_BRAND_STRING'] %>",
+			"url": "<%= ENV['MY_URL'] %>"
 		}
 	</script>
 	<% if content_for(:index) %>
