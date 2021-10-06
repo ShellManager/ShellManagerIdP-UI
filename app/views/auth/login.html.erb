@@ -47,7 +47,7 @@
 					if (multifactor == 0) {
               $.ajax({
                   type: 'POST',
-                  url: 'https://api.id.m6.nz/api/v1/sessions',
+                  url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/sessions',
                   dataType: 'json',
                   async: false,
                   headers: {
@@ -58,7 +58,7 @@
                           apiKey = data.api_key
                           $.ajax({
                               type: 'GET',
-                              url: 'https://api.id.m6.nz/api/v1/details/' + $("#email").val(),
+                              url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/details/' + $("#email").val(),
                               headers: {
                                   "Authorization": "Bearer " + apiKey
                               },
@@ -102,7 +102,7 @@
           } else {
               $.ajax({
                   type: 'POST',
-                  url: 'https://api.id.m6.nz/api/v1/multifactor?validate=1',
+                  url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/multifactor?validate=1',
                   data: JSON.stringify({
                       code: $("#QRCodeMFALoginToken").val(),
                       email: $("#email").val()
@@ -112,7 +112,7 @@
                           apiKey = data.api_key
                           $.ajax({
                               type: 'GET',
-                              url: 'https://api.id.m6.nz/api/v1/details/' + $("#email").val(),
+                              url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/details/' + $("#email").val(),
                               headers: {
                                   "Authorization": "Bearer " + apiKey
                               },

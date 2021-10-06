@@ -60,7 +60,7 @@
   $(function(){
       $.ajax({
           type: 'GET',
-          url: 'https://api.id.m6.nz/api/v1/applications/<%= params[:client_id].present? ? params[:client_id] : "nil" %>',
+          url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/applications/<%= params[:client_id].present? ? params[:client_id] : "nil" %>',
           success: function(data){
               $("#promptbox").append(data.html);
 
@@ -73,7 +73,7 @@
                   $(document).on('click', '#allowSSO', function(e) {
                       $("#promptbox").html("<span style='color: yellow'>Hold on, this won't take long...</span>");
                       $(function(){
-                          redirect_uri = "https://api.id.m6.nz/api/v1/saml/<%= params[:caller] %>?gid=<%= @current_user[:user_global_id] %>&api_key=<%= @current_user[:api_key] %>&client_id=<%= params[:client_id] %>"
+                          redirect_uri = "https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/saml/<%= params[:caller] %>?gid=<%= @current_user[:user_global_id] %>&api_key=<%= @current_user[:api_key] %>&client_id=<%= params[:client_id] %>"
                           setTimeout(function(){
                               window.location = redirect_uri
                           }, 2500)
@@ -98,7 +98,7 @@
 
                       $.ajax({
                           type: 'POST',
-                          url: 'https://api.id.m6.nz/api/v1/oauth/authorize',
+                          url: 'https://<%= ENV['IDENTITY_API_URL'] %>/api/v1/oauth/authorize',
                           data: form,
                           cache: false,
                           contentType: false,
