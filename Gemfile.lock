@@ -81,7 +81,8 @@ GEM
     nio4r (2.5.2)
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
-    puma (3.12.4)
+    puma (4.3.9)
+      nio4r (~> 2.0)
     rack (2.2.3)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -151,7 +152,7 @@ DEPENDENCIES
   byebug
   gaffe!
   listen (~> 3.0.5)
-  puma (~> 3.12)
+  puma (~> 4.3)
   rails (~> 5.0.6)
   rest-client
   spring
